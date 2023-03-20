@@ -15,8 +15,7 @@ class Cal:
         self.m_distance = 0
         self.correction = 0
         self.pressed = False
-        self.key_watcher = True
-        self.key_watcher_start = False
+
         keyboard.hook(self.print_pressed_keys)
 
         self.tk_set_up()
@@ -27,8 +26,10 @@ class Cal:
         self.size = self.rc_0_1.get()
         if self.size != '':
             self.size = float(self.size)
-            res = self.size / 157.50625
-            return round((sqrt * res) + self.correction, 1)
+            res = sqrt * self.correction
+            if not self.correction:
+                res = sqrt
+            return round(res, 1)
         return 'Enter map scale!'
 
     def get_coords(self):
@@ -60,7 +61,7 @@ class Cal:
         self.btn_clear_all = tk.Button(self.window, text="Clear", command=self.clear_all)
         self.btn_clear_all.grid(row=0, column=2, sticky="w")
 
-        self.copy_paste = tk.Button(self.window, text="Copy", command=self.copy_paste_to_clipboard)
+        self.copy_paste = tk.Button(self.window, text="Copy", command=self.set_pixel_per_meter)
         self.copy_paste.grid(row=4, column=2, sticky="w")
 
     def clear_all(self):
@@ -73,10 +74,10 @@ class Cal:
         self.rc_3_1.config(text="0")
         self.correction = 0
 
-    def copy_paste_to_clipboard(self):
+    def set_pixel_per_meter(self):
         if self.size != '':
-            self.correction = round(self.size - self.m_distance, 1)
-        self.correction_entry.config(text=self.correction)
+            self.correction = self.size / self.m_distance
+        self.correction_entry.config(text=round(self.correction, 1))
 
     def tk_set_up(self):
         self.window = tk.Tk()
@@ -111,7 +112,7 @@ class Cal:
         self.rc_1_1.configure(text=f"{self.x1} : {self.y1}")
         self.rc_2_1.configure(text=f"{self.x2} : {self.y2}")
         self.rc_3_1.configure(text=f"{self.m_distance}")
-        self.correction_entry.configure(text=f"{self.correction}")
+        self.correction_entry.configure(text=f"{round(self.correction, 1)}")
 
     def start(self):
         Thread(target=lambda: keyboard.wait('end')).start()
