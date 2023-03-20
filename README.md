@@ -11,11 +11,13 @@
 Программа фиксирует 2 координату на мониторе.
 
 ![alt text](https://i.imgur.com/y4W90UJ.png)
+
 ![alt text](https://i.imgur.com/E4srJRZ.png)
 
 Нажимаем кнопку Copy, чтобы программа запомнила данные для корректировки масштаба.
 
 ![alt text](https://i.imgur.com/QffddqC.png)
+
 В поле Correction появляется цифры, все. Вы готовы к измерению дистанции между 2 точками на карте.
 
 ![alt text](https://i.imgur.com/fEdro6G.gif)
